@@ -1,0 +1,21 @@
+# Release checklist
+
+- [ ] Version string updated where applicable.
+- [ ] `python3 tools/build.py` completes successfully.
+- [ ] `python3 tools/validate.py` passes.
+- [ ] Generated `index.html` matches the versioned file in `dist/`.
+- [ ] SHA-256 recorded in `SHA256SUMS.txt`.
+- [ ] Portrait UI tested on a narrow phone viewport.
+- [ ] Landscape UI tested on a short/wide phone viewport.
+- [ ] All 11 gameplay keyboard bindings press/release correctly.
+- [ ] Touch controls remain functional.
+- [ ] Fast Forward toggle tested.
+- [ ] PNG capture tested.
+- [ ] GIF capture tested.
+- [ ] PNG + MSS ZIP tested.
+- [ ] Quick Save / Quick Load tested.
+- [ ] `.sav` / `.eeprom` / `.ieeprom` import-export checked when affected.
+- [ ] Mesen `.mss` import/export checked when state serialization is affected.
+- [ ] Offline audit passes.
+- [ ] No ROM, BIOS, commercial game asset, `.sav`, `.mss`, `.eeprom`, or `.ieeprom` file is included in the repository/release.
+- [ ] Changelog updated.

@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#071019">
+<meta name="application-name" content="WonderSwan Mobile">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="color-scheme" content="dark">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; media-src blob:; connect-src 'none'; font-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'">
+<title>WonderSwan Mobile Emulator Pro v1.6.3 Capture Bundle & Hotkeys</title>
+<style>{{INLINE_CSS}}</style>
+</head>
+<body class="portrait">
+<div id="app">
+  <header class="toolbar">
+    <label class="file-btn accent" for="romFile">ROM</label><input id="romFile" type="file" accept=".ws,.wsc,.bin,application/octet-stream" hidden>
+    <button id="playBtn" class="tool icon accent" disabled title="Pausa / continuar">▶</button>
+    <button id="speedBtn" class="tool speed" disabled title="Aceleración">1×</button>
+    <button id="quickSaveBtn" class="tool state-tool" disabled title="Guardar en slot activo"><span>QS</span><small id="quickSaveSlot">1</small></button>
+    <button id="quickLoadBtn" class="tool state-tool" disabled title="Cargar slot activo"><span>QL</span><small id="quickLoadSlot">1</small></button>
+    <select id="layout" class="layout-select" title="Orientación"><option value="auto">Auto</option><option value="portrait">Vertical</option><option value="landscape">Horizontal</option></select>
+    <button id="fullscreenBtn" class="tool icon" title="Pantalla completa">⛶</button>
+    <button id="menuBtn" class="tool icon" title="Opciones">☰</button>
+    <span class="grow rom-name" id="romName">Sin ROM</span>
+  </header>
+  <main class="playfield">
+    <div class="screen-stage" id="screenStage"><div class="screen-frame" id="screenFrame"><div class="screen-inner"><canvas id="screen" width="224" height="144"></canvas></div></div><div id="placeholder" class="screen-placeholder"><b>WonderSwan Mobile Pro</b><small id="placeholderText">Buscando el último juego…</small></div><div id="perfHud" class="perf-hud hidden"><span id="hudFps">0 FPS</span><span id="hudSpeed">1×</span><span id="hudAudio">A 0.000</span></div><div id="gamepadPill" class="gamepad-pill hidden">🎮</div><button id="gifPill" class="gif-pill" type="button" title="Detener y guardar GIF"><span class="dot"></span><span id="gifPillText">GIF 00:00</span></button></div>
+    <section class="controls" id="controls">
+      <div class="cluster xcluster"><div class="cluster-title">X1–X4</div><div class="diamond">
+        <span class="blank"></span><button class="key" data-key="xu">X1<small>↑</small></button><span class="blank"></span>
+        <button class="key" data-key="xl">X4<small>←</small></button><span class="center">X</span><button class="key" data-key="xr">X2<small>→</small></button>
+        <span class="blank"></span><button class="key" data-key="xd">X3<small>↓</small></button><span class="blank"></span>
+      </div></div>
+      <div class="cluster ycluster"><div class="cluster-title">Y1–Y4</div><div class="diamond">
+        <span class="blank"></span><button class="key" data-key="yu">Y1<small>↑</small></button><span class="blank"></span>
+        <button class="key" data-key="yl">Y4<small>←</small></button><span class="center">Y</span><button class="key" data-key="yr">Y2<small>→</small></button>
+        <span class="blank"></span><button class="key" data-key="yd">Y3<small>↓</small></button><span class="blank"></span>
+      </div></div>
+      <div class="actions"><button id="fastForwardBtn" class="key fast-forward" type="button" disabled aria-pressed="false" title="Fast Forward 3×: toca para activar/desactivar">» FF <small>3×</small></button><button class="key action a" data-key="a">A</button><button class="key action b" data-key="b">B</button><button class="key start" data-key="start">START</button></div>
+    </section>
+  </main>
+  <button id="toolbarReveal" class="toolbar-reveal hidden" aria-label="Mostrar barra">⌄</button>
+</div>
+<div id="toast" class="toast"></div>
+<div id="sheetBackdrop" class="sheet-backdrop"><div class="sheet" role="dialog" aria-modal="true" aria-label="Opciones del emulador">
+  <div class="sheet-grabber"></div>
+  <div class="sheet-head"><div><h3>WonderSwan Mobile Pro v1.6.3</h3><small id="gameInfo">Sin cartucho</small></div><button id="closeMenuBtn" class="sheet-close" aria-label="Cerrar">✕</button></div>
+  <div class="sheet-scroll">
+    <section class="setting-section"><h4>Biblioteca reciente</h4><div id="recentList" class="recent-list"><p class="empty-note">Todavía no hay ROMs guardadas.</p></div><div class="sheet-grid"><label class="file-btn accent" for="romFile">Añadir ROM</label><button id="clearLibraryBtn" class="danger">Vaciar biblioteca</button></div></section>
+    <section class="setting-section"><h4>Partida</h4>
+      <div id="stateSlots" class="state-slots">
+        <button class="state-slot selected" data-slot="1"><b>Slot 1</b><small>Vacío</small></button>
+        <button class="state-slot" data-slot="2"><b>Slot 2</b><small>Vacío</small></button>
+        <button class="state-slot" data-slot="3"><b>Slot 3</b><small>Vacío</small></button>
+        <button class="state-slot" data-slot="4"><b>Slot 4</b><small>Vacío</small></button>
+      </div>
+      <div class="sheet-grid three"><button id="saveSlotBtn" disabled>Guardar</button><button id="loadSlotBtn" disabled>Cargar</button><button id="deleteSlotBtn" class="danger" disabled>Borrar</button></div>
+      <label class="switch-row"><span><b>Autoguardado y reanudación</b><small>Continúa exactamente donde quedaste al volver a abrir.</small></span><input id="autoResumeToggle" type="checkbox"><i></i></label>
+      <label class="switch-row"><span><b>Pausar en segundo plano</b><small>Evita consumir batería cuando cambias de app.</small></span><input id="pauseHiddenToggle" type="checkbox"><i></i></label>
+      <div class="sheet-grid"><button id="screenshotBtn" class="capture-btn" title="Captura PNG · Hotkey P">📷 PNG <span class="hk-badge">P</span></button><button id="gifCaptureBtn" class="capture-btn" title="Iniciar/detener GIF · Hotkey G">🎞 GIF <span class="hk-badge">G</span></button><button id="captureBundleBtn" class="capture-btn" disabled title="Captura PNG + estado Mesen MSS en ZIP · Hotkey M">📦 PNG + MSS <span class="hk-badge">M</span></button><button id="resetBtn" disabled>↻ Reset</button></div><small class="empty-note">GIF: 15 FPS · máximo 30 s. PNG + MSS crea un ZIP con una captura y un save state Mesen del mismo instante.</small>
+    </section>
+
+    <section class="setting-section"><h4>Pantalla</h4>
+      <div class="field-grid"><label>Orientación<select id="layoutMenu"><option value="auto">Auto</option><option value="portrait">Vertical</option><option value="landscape">Horizontal</option></select></label><label>Filtro<select id="filterSelect"><option value="sharp">Pixel perfecto</option><option value="lcd">LCD</option><option value="smooth">Suavizado</option></select></label><label>Rotación del juego<select id="rotationSelect"><option value="auto">Auto</option><option value="0">Sin rotar</option><option value="cw">90° derecha</option><option value="ccw">90° izquierda</option></select></label></div>
+      <label class="switch-row"><span><b>HUD de rendimiento</b><small>FPS, velocidad y actividad de audio.</small></span><input id="hudToggle" type="checkbox"><i></i></label>
+      <label class="switch-row"><span><b>Ocultar barra en horizontal</b><small>Toca la pantalla para recuperarla.</small></span><input id="autoHideToolbarToggle" type="checkbox"><i></i></label>
+      <label class="switch-row"><span><b>Mantener pantalla encendida</b><small>Usa Wake Lock cuando Android lo permita.</small></span><input id="wakeLockToggle" type="checkbox"><i></i></label>
+      <button id="fullscreenMenuBtn" class="wide">⛶ Pantalla completa</button>
+    </section>
+
+    <section class="setting-section"><h4>Controles</h4>
+      <div class="field-grid"><label>Tamaño<select id="controlSizeSelect"><option value="compact">Compacto</option><option value="normal">Normal</option><option value="large">Grande</option></select></label><label>Vibración<select id="hapticSelect"><option value="0">Desactivada</option><option value="5">Suave</option><option value="12">Media</option><option value="20">Fuerte</option></select></label></div>
+      <label class="range-row"><span>Opacidad <output id="opacityValue">90%</output></span><input id="controlOpacityRange" type="range" min="35" max="100" step="5"></label>
+      <label class="switch-row"><span><b>Intercambiar A / B</b><small>Cambia su posición visual.</small></span><input id="swapABToggle" type="checkbox"><i></i></label>
+      <label class="switch-row"><span><b>Modo zurdo</b><small>Intercambia la posición de los diamantes X/Y.</small></span><input id="leftHandedToggle" type="checkbox"><i></i></label>
+      <label class="switch-row"><span><b>Turbo A</b><small>Autofire mientras mantienes A.</small></span><input id="turboAToggle" type="checkbox"><i></i></label>
+      <label class="switch-row"><span><b>Turbo B</b><small>Autofire mientras mantienes B.</small></span><input id="turboBToggle" type="checkbox"><i></i></label>
+      <label class="switch-row"><span><b>Gamepad Bluetooth/USB</b><small>D-pad → X, stick derecho/shoulders → Y.</small></span><input id="gamepadToggle" type="checkbox"><i></i></label>
+      <div class="hotkey-card"><h5>Teclado / Hotkeys</h5><div class="hotkey-map">
+        <div class="hotkey-line"><b>X1–X4</b><kbd>↑ ← ↓ →</kbd></div><div class="hotkey-line"><b>Y1–Y4</b><kbd>W A S D</kbd></div>
+        <div class="hotkey-line"><b>A</b><kbd>Z</kbd></div><div class="hotkey-line"><b>B</b><kbd>X</kbd></div>
+        <div class="hotkey-line"><b>START</b><kbd>C</kbd></div><div class="hotkey-line"><b>Sin conflicto</b><kbd>P / G / M</kbd></div>
+        <div class="hotkey-actions"><div class="hotkey-line"><kbd>P</kbd><b>PNG</b></div><div class="hotkey-line"><kbd>G</kbd><b>GIF</b></div><div class="hotkey-line"><kbd>M</kbd><b>PNG + MSS</b></div></div>
+      </div></div>
+      <p class="device-status"><span id="gamepadDot" class="status-dot"></span> <span id="gamepadStatus">Sin gamepad</span><br><span id="wakeStatus">Pantalla activa normal</span></p>
+    </section>
+
+    <section class="setting-section"><h4>Compatibilidad Mesen</h4>
+      <p class="empty-note">Importa y exporta estados <b>.mss</b> de Mesen 2.1.1 para WonderSwan. La ROM correspondiente debe estar cargada.</p>
+      <div class="sheet-grid"><button id="importMesenStateBtn" disabled>Importar .mss</button><button id="exportMesenStateBtn" disabled>Exportar .mss</button><input id="mesenStateFile" type="file" accept=".mss,application/octet-stream" hidden></div>
+      <div class="sheet-grid"><button id="firmwareZipBtn">BIOS/EEPROM ZIP</button><button id="exportInternalEepromBtn" disabled>Exportar .ieeprom</button><input id="firmwareZipFile" type="file" accept=".zip,application/zip" hidden></div>
+      <button id="clearFirmwareBtn" class="danger wide">Borrar firmware</button>
+      <p class="device-status" id="firmwareStatus">Firmware: no configurado.</p>
+    </section>
+
+    <section class="setting-section"><h4>Audio y archivos</h4>
+      <div class="sheet-grid"><button id="muteBtn">🔊 Audio</button><label class="file-btn accent" for="romFile">Cambiar ROM</label></div>
+      <div class="sheet-grid"><button id="saveBatteryBtn" disabled>Exportar save</button><button id="loadBatteryBtn" disabled>Importar save</button><input id="batteryFile" type="file" accept=".sav,.eep,.eeprom,.ieeprom,.bin" hidden></div>
+      <button id="clearStatesBtn" class="danger wide" disabled>Borrar estados del juego</button>
+      <button id="clearRomBtn" class="danger wide">Olvidar ROM automática</button>
+      <button id="resetSettingsBtn" class="wide">Restaurar preferencias</button>
+    </section>
+
+    <p class="sheet-note"><span id="runDot" class="status-dot"></span> <span id="statusText">Sin cartucho</span><br><span id="storageText">ROM, SRAM y estados se guardan únicamente en este dispositivo.</span></p>
+  </div>
+</div></div>
+<script>{{INLINE_JS}}</script></body></html>

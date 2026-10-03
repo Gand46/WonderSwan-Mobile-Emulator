@@ -1,0 +1,75 @@
+WonderSwan Mobile Emulator Pro v1.6.3 - Capture Bundle & Hotkeys
+================================================================
+
+FEATURES ADDED
+--------------
+1. New independent capture function: PNG + Mesen MSS in a single ZIP.
+   - Freezes emulation while PNG and MSS are produced, so both correspond to the same emulation instant.
+   - ZIP contains exactly two files: <rom>_<frame>.png and <rom>_<frame>.mss.
+   - MSS uses the existing Mesen 2.1.1 / format v4 bridge.
+   - ZIP is generated fully offline with an internal STORE-mode ZIP writer and CRC32.
+
+2. Keyboard mapping
+   - X1/X2/X3/X4: ArrowUp / ArrowRight / ArrowDown / ArrowLeft
+   - Y1/Y2/Y3/Y4: W / D / S / A
+   - A: Z
+   - B: X
+   - START: C
+
+3. Capture hotkeys (non-overlapping with gameplay keys)
+   - P: PNG screenshot
+   - G: start/stop animated GIF
+   - M: PNG + MSS ZIP bundle
+
+4. UI visibility
+   - P/G/M badges are visible directly on capture buttons.
+   - A dedicated "Teclado / Hotkeys" card lists all gameplay mappings and capture hotkeys.
+
+VALIDATION
+----------
+JavaScript syntax: PASS (node --check)
+Gameplay keyboard matrix: 11/11 press+release PASS
+  Arrows -> X1-X4: PASS
+  WASD -> Y1-Y4: PASS
+  Z -> A: PASS
+  X -> B: PASS
+  C -> START: PASS
+P hotkey: PASS, PNG download produced
+G hotkey: PASS, toggles GIF recording ON/OFF and retains G badge
+M hotkey: PASS, ZIP download produced
+
+Generated ZIP acceptance test:
+  wondercell_85_PNG_MSS.zip
+  ZIP integrity: PASS
+  Entries: wondercell_85.png, wondercell_85.mss
+  PNG signature: PASS
+  MSS signature: PASS (MSS)
+  Mesen emuVersion: 0x020101 (2.1.1)
+  Mesen file format: 4
+  Console type: 6 (WonderSwan)
+  MSS framebuffer: 224x144
+  Serializer keys: 264
+  ppu.frameCount: 85
+  PNG/MSS capture frame: 85
+
+Landscape 844x390:
+  document width == viewport width: PASS
+  document height == viewport height: PASS
+  overflow: 0
+
+Core preservation:
+  v1.6.2 core SHA-256: 9f5e68d2f908168b36ced4509f5cb7ac60eb4625ce58a63afd69124a9cc11e03
+  v1.6.3 core SHA-256: 9f5e68d2f908168b36ced4509f5cb7ac60eb4625ce58a63afd69124a9cc11e03
+  byte-equivalent emulation core: YES
+
+Offline audit:
+  HTTP/HTTPS URLs: 0
+  external scripts: 0
+  fetch(): 0
+  XMLHttpRequest: 0
+  WebSocket: 0
+  CSP connect-src: none
+
+HTML SHA-256
+------------
+ee56094b09f97796be120b037455fdf397e42bdf1029190518afa64b8f046c62

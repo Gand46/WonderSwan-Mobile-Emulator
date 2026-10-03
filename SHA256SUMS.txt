@@ -1,0 +1,2 @@
+ee56094b09f97796be120b037455fdf397e42bdf1029190518afa64b8f046c62  index.html
+ee56094b09f97796be120b037455fdf397e42bdf1029190518afa64b8f046c62  dist/WonderSwan_Mobile_Emulator_v1.6.3_CaptureBundleHotkeys.html
